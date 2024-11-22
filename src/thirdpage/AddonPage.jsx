@@ -1,24 +1,59 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import LeftContainer from "../leftcontainer/LeftContainer";
+import { useNavigate } from "react-router-dom";
 
 const AddonPage = () => {
+  const [selectedCheckbox, setselectedCheckbox] = useState([]);
+  const [checked, setChecked] = useState();
+  const [count, setCount] = useState([3]);
+  const idRef = useRef(0);
+  const navigate = useNavigate();
+
+  function handleForward() {
+    navigate("/finishupPage");
+  }
+
+  function handleBackward() {
+    navigate("/plansPage");
+  }
+
+  const handleCheckboxSelected = (service, amount) => {
+    const newId = idRef.current + 1;
+    idRef.current = newId;
+    setselectedCheckbox((prevValue) => [
+      ...prevValue,
+      { id: newId, addons: service, cash: amount },
+    ]);
+  };
+  const remove = selectedCheckbox.filter((item, ind) => console.log(item, ind));
+  console.log(selectedCheckbox);
+
   return (
-    <div className="h-screen flex justify-center items-center">
-      <main className="bg-white w-8/12 h-5/6 rounded-lg flex p-4 gap-20 shadow-lg max-sm:hidden justify-center ">
+    <div className="h-screen flex justify-center items-center max-sm:h-0">
+      <main className="bg-white w-8/12 h-5/6 rounded-lg flex  p-4 gap-16 shadow-lg max-sm:block max-sm:w-full max-sm:p-0 max-sm:bg-[rgb(0,255,255)] max-sm:shadow-none max-lg:w-auto">
         <LeftContainer />
-        <section className="w-[70%] p-7 flex flex-col gap-10">
-          <div>
-            <h3 className="text-3xl font-bold text-blue-900">Pick add-ons</h3>
-            <p className="text-gray-400 text-sm">
+        <section className="w-[70%] p-5 max-sm:w-full max-sm:mt-32 max-sm:bg-white max-sm:relative max-sm:h-[420px]">
+          <div className="max-sm:flex max-sm:flex-col max-sm:gap-3">
+            <h3 className="text-3xl font-bold text-blue-900 max-sm:text-4xl">
+              Pick add-ons
+            </h3>
+            <p className="text-gray-400 text-sm max-sm:text-xl">
               Add-ons help enhance your gaming experience.
             </p>
           </div>
-          <div className="flex flex-col gap-4">
-            <div className="flex gap-8 items-center border border-gray-400 rounded-md p-4">
-              <input type="checkbox" />
+          <div className="flex flex-col gap-4 pt-8 max-lg:pt-10 max-lg:pr-4 max-sm:p-1">
+            <div
+              className="flex gap-8 items-center border border-gray-400 rounded-md  p-4 max-sm:p-1"
+              onClick={() => handleCheckboxSelected("Online service", "+$1/mo")}
+            >
+              <input
+                type="checkbox"
+                value={checked}
+                onChange={(e) => setChecked(e.target.value)}
+              />
               <div className="flex items-center gap-32">
                 <div>
-                  <p className="text-violet-950 text-sm font-medium">
+                  <p className="text-violet-950 text-sm font-medium max-sm:text-sm">
                     Online service
                   </p>
                   <p className="text-gray-400 text-xs font-normal">
@@ -32,8 +67,15 @@ const AddonPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-8 items-center border border-gray-400 rounded-md p-4">
-              <input type="checkbox" />
+            <div
+              className="flex gap-8 items-center border border-gray-400 rounded-md p-4 max-sm:p-1"
+              onClick={() => handleCheckboxSelected("Larger storage", "+$2/mo")}
+            >
+              <input
+                type="checkbox"
+                value={checked}
+                onChange={(e) => setChecked(e.target.value)}
+              />
               <div className="flex items-center gap-32">
                 <div>
                   <p className="text-violet-950 text-sm font-medium">
@@ -50,8 +92,17 @@ const AddonPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-8 items-center border border-gray-400 rounded-md p-4">
-              <input type="checkbox" />
+            <div
+              className="flex gap-8 items-center border border-gray-400 rounded-md p-4 max-sm:p-1"
+              onClick={() =>
+                handleCheckboxSelected("Customizable Profile", "+$2/mo")
+              }
+            >
+              <input
+                type="checkbox"
+                value={checked}
+                onChange={(e) => setChecked(e.target.value)}
+              />
               <div className="flex items-center gap-32">
                 <div>
                   <p className="text-violet-950 text-sm font-medium">
@@ -63,95 +114,38 @@ const AddonPage = () => {
                 </div>
                 <div>
                   <span className="text-blue-400 text-sm font-medium">
-                    +$1/mo
+                    +$2/mo
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-between mt-4">
-            <button className="text-blue-950 text-sm font-bold">Go Back</button>
+          <div className="flex justify-between mt-20 max-sm:hidden max-lg:mt-16">
+            <button
+              className="text-blue-950 text-sm font-bold"
+              onClick={handleBackward}
+            >
+              Go Back
+            </button>
             <button
               type="button"
               className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs"
+              onClick={handleForward}
             >
               Next Step
             </button>
           </div>
         </section>
-      </main>
-
-      {/* responsive design */}
-      <section className=" text-white bg-blue-900 hidden max-sm:flex flex-col gap-10 h-48">
-        <div className="flex justify-center gap-10 mt-10">
-          <span className="text-xl font-bold">1</span>
-          <span className="text-xl font-bold">2</span>
-          <span className="text-xl font-bold">3</span>
-          <span className="text-xl font-bold">4</span>
-        </div>
-        <div className="flex justify-center flex-col items-center">
-          <div className="bg-white text-black w-[90%] rounded-lg p-4 shadow-lg">
-            <div className="flex flex-col gap-2">
-              <h3 className="text-3xl font-bold text-blue-900">
-                Personal info
-              </h3>
-              <p className="text-gray-400 text-lg mb-4">
-                Please provide your name,email address and phone number.
-              </p>
-            </div>
-            <div className="bg-white flex flex-col gap-4">
-              <div>
-                <label htmlFor="name">
-                  <p className="text-sm text-violet-900 font-bold">Name</p>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
-                  />
-                </label>
-              </div>
-              <div>
-                <label htmlFor="email">
-                  <p className="text-sm text-violet-900 font-bold">
-                    Email Address
-                  </p>
-                  <input
-                    type="mail"
-                    id="email"
-                    name="email"
-                    required
-                    className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
-                  />
-                </label>
-              </div>
-              <div>
-                <label htmlFor="phone">
-                  <p className="text-sm text-violet-900 font-bold">
-                    Phone Number
-                  </p>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    required
-                    className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="w-full bg-white p-6 flex justify-end mt-12">
+        <div className="flex justify-between mt-16 bg-white p-3 min-[640px]:hidden">
+          <button className="text-blue-950 text-sm font-bold">Go Back</button>
           <button
             type="button"
-            className="bg-blue-900 text-white py-4 px-4 rounded-md text-sm"
+            className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs"
           >
             Next Step
           </button>
         </div>
-      </section>
+      </main>
     </div>
   );
 };

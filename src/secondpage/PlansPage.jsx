@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftContainer from "../leftcontainer/LeftContainer";
 import { LuJoystick } from "react-icons/lu";
 import { BiJoystick } from "react-icons/bi";
 import { BiSolidJoystickAlt } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { SiEthers } from "react-icons/si";
 
 const PlansPage = () => {
+  const [selectedData, setSelectedData] = useState({});
+
+  const [borderColor, setBorderColor] = useState("");
+
+  console.log(selectedData);
+  const navigate = useNavigate();
+
+  function handleForward() {
+    navigate("/addonPage");
+  }
+
+  function handleBackward() {
+    navigate("/");
+  }
+
+  const handleSelect = (name, price) => {
+    setBorderColor("Arcade");
+    // setBorderColor("Advanced");
+    // setBorderColor("Advanced");
+    setSelectedData({ tech: name, month: price });
+  };
   return (
     <div className="h-screen flex justify-center items-center max-sm:h-0">
-      <main className="bg-white w-8/12 h-5/6 rounded-lg flex  p-4 gap-16 shadow-lg max-sm:block max-sm:w-full max-sm:p-0 max-sm:bg-[rgb(0,255,255)] max-sm:shadow-none">
+      <main className="bg-white w-8/12 h-5/6 rounded-lg flex  p-4 gap-16 shadow-lg max-sm:block max-sm:w-full max-sm:p-0 max-sm:bg-[rgb(0,255,255)] max-sm:shadow-none max-lg:gap-0 max-lg:w-auto">
         <LeftContainer />
-        <section className="w-[70%] p-5 max-sm:w-full max-sm:mt-32 max-sm:bg-white max-sm:relative">
+        <section className="w-[70%] p-5 max-sm:w-full max-sm:mt-32 max-sm:bg-white max-sm:relative max-sm:h-[530px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-3xl font-bold text-blue-900  max-sm:bg-white max-sm:text-4xl">
               Select Your Plan
@@ -19,49 +42,86 @@ const PlansPage = () => {
             </p>
           </div>
           <div className="flex gap-4 mt-12 max-sm:block max-sm:gap-4">
-            <div className="flex flex-col justify-start gap-8 border border-gray-300 py-4 pl-3 pr-16 cursor-pointer rounded-md max-sm:py-2 max-sm:px-32">
+            <div
+              className={`flex flex-col justify-start gap-8 border ${
+                borderColor === "Arcade" ? "border-blue-700" : "border-gray-300"
+              } py-4 pl-3 pr-16 cursor-pointer focus:border-blue-600 rounded-md max-sm:py-2 max-sm:flex-row`}
+              onClick={() => handleSelect("arcade", "$9 / mo")}
+            >
               <div>
-                <LuJoystick className="bg-green-400 rounded-full text-2xl text-white p-1" />
+                <LuJoystick className="bg-green-400 rounded-full text-2xl text-white p-1 max-sm:text-3xl" />
               </div>
               <div>
-                <p className="text-blue-950 text-sm font-bold">Arcade</p>
-                <span className="text-xs text-gray-400">$9/mo</span>
+                <p className="text-blue-950 text-sm font-bold max-sm:text-xl">
+                  Arcade
+                </p>
+                <span className="text-xs text-gray-400 max-sm:text-base max-sm:font-medium">
+                  $9/mo
+                </span>
               </div>
             </div>
-            <div className="flex flex-col gap-8 border border-gray-300 py-4 pl-3 pr-12 cursor-pointer rounded-md">
+            <div
+              className={`flex flex-col gap-8 border ${
+                borderColor === "Advanced"
+                  ? "border-blue-700"
+                  : "border-gray-300"
+              } py-4 pl-3 pr-12 cursor-pointer rounded-md max-sm:flex-row`}
+              onClick={() => handleSelect("Advanced", "$12/mo")}
+            >
               <div>
-                <BiJoystick className="bg-red-400 rounded-full text-2xl text-white p-1" />
+                <BiJoystick className="bg-red-400 rounded-full text-2xl text-white p-1 max-sm:text-3xl" />
               </div>
               <div>
-                <p className="text-blue-950 text-sm font-bold">Advanced</p>
-                <span className="text-xs text-gray-400">$12/mo</span>
+                <p className="text-blue-950 text-sm font-bold max-sm:text-xl">
+                  Advanced
+                </p>
+                <span className="text-xs text-gray-400 max-sm:text-base max-sm:font-medium">
+                  $12/mo
+                </span>
               </div>
             </div>
-            <div className="flex flex-col gap-8 border border-gray-300 py-4 pl-3 pr-16 cursor-pointer rounded-md">
+            <div
+              className={`flex flex-col gap-8 border ${
+                borderColor === "Pro" ? "border-blue-700" : "border-gray-300"
+              } py-4 pl-3 pr-16 cursor-pointer rounded-md max-sm:flex-row`}
+              onClick={() => handleSelect("Pro", "$15/mo")}
+            >
               <div>
-                <BiSolidJoystickAlt className="bg-blue-800 rounded-full text-2xl text-white p-1" />
+                <BiSolidJoystickAlt className="bg-blue-800 rounded-full text-2xl text-white p-1 max-sm:text-3xl" />
               </div>
               <div>
-                <p className="text-blue-950 text-sm font-bold">Pro</p>
-                <span className="text-xs text-gray-400">$15/mo</span>
+                <p className="text-blue-950 text-sm font-bold max-sm:text-xl">
+                  Pro
+                </p>
+                <span className="text-xs text-gray-400 max-sm:text-base max-sm:font-medium">
+                  $15/mo
+                </span>
               </div>
             </div>
           </div>
           <div className="flex">
-            <label class="inline-flex items-center cursor-pointer bg-gray-100 p-2 rounded-md w-[400px] mt-8 justify-center gap-4">
+            <label class="inline-flex items-center cursor-pointer bg-gray-100 p-2 rounded-md w-[400px] mt-8 justify-center gap-4 max-sm:p-4">
               <input type="checkbox" value="" class="sr-only peer" />
-              <span className="text-sm font-medium">Yearly</span>
+              <span className="text-sm font-medium max-sm:text-lg max-sm:font-medium">
+                Yearly
+              </span>
               <div class="relative w-8 h-4 bg-blue-950 peer-focus:outline-none  peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[0px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+              <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 max-sm:text-lg max-sm:font-medium">
                 Monthly
               </span>
             </label>
           </div>
-          <div className="flex justify-between mt-20 w-[400px] max-sm:w-0">
-            <button className="text-blue-950 text-sm font-bold">Go Back</button>
+          <div className="flex justify-between mt-20 w-[400px] max-sm:w-[350px] max-sm:p-4 max-sm:bg-white max-lg:w-auto">
+            <button
+              className="text-blue-950 text-sm font-bold"
+              onClick={handleBackward}
+            >
+              Go Back
+            </button>
             <button
               type="button"
-              className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs"
+              className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs max-sm:px-8"
+              onClick={handleForward}
             >
               Next Step
             </button>

@@ -2,7 +2,7 @@ import React from "react";
 
 const LeftContainer = () => {
   return (
-    <section className="h-full w-[20vw] bg-blue-400 rounded-md flex flex-col gap-4 p-10 max-sm:w-full max-sm:h-[35%] max-sm:flex-row max-sm:justify-center max-sm:rounded-none max-sm:absolute">
+    <section className="h-full w-[20vw] bg-blue-400 rounded-md flex flex-col gap-4 p-10 max-sm:w-full max-sm:h-[35%] max-sm:flex-row max-sm:justify-center max-sm:rounded-none max-sm:absolute max-lg:w-auto">
       <div className="flex gap-4">
         <span className="text-white max-sm:text-2xl max-sm:font-medium">1</span>
         <span>

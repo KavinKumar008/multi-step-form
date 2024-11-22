@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftContainer from "../leftcontainer/LeftContainer";
+import { useNavigate } from "react-router-dom";
 
 const PersonalInfo = () => {
+  const [uname, setUname] = useState("");
+  const [uemail, setUemail] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+
+  const navigate = useNavigate();
+  function handleSubmit() {
+    console.log("hiii");
+    navigate("/plansPage");
+  }
   return (
     <div className="h-screen flex justify-center items-center max-sm:items-start max-lg:visible">
       <main className="bg-white w-8/12 h-5/6 rounded-lg flex  p-4 gap-16 shadow-lg max-sm:block max-sm:w-full max-sm:p-0 max-sm:bg-[rgb(0,255,255)] max-sm:shadow-none">
@@ -13,7 +23,11 @@ const PersonalInfo = () => {
               Please provide your name,email address and phone number.
             </p>
           </div>
-          <div className="flex flex-col gap-4 mt-4">
+          <form
+            className="flex flex-col gap-4 mt-4"
+            id="submit"
+            onSubmit={handleSubmit}
+          >
             <div>
               <label htmlFor="name">
                 <p className="text-sm text-violet-900">Name</p>
@@ -22,6 +36,8 @@ const PersonalInfo = () => {
                   id="name"
                   name="name"
                   required
+                  value={uname}
+                  onChange={(e) => setUname(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
@@ -34,6 +50,8 @@ const PersonalInfo = () => {
                   id="email"
                   name="email"
                   required
+                  value={uemail}
+                  onChange={(e) => setUemail(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
@@ -46,15 +64,18 @@ const PersonalInfo = () => {
                   id="phone"
                   name="phone"
                   required
+                  value={phoneNo}
+                  onChange={(e) => setPhoneNo(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
             </div>
-          </div>
+          </form>
           <div className="flex justify-end mt-12 max-sm:hidden">
             <button
-              type="button"
+              type="submit"
               className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs"
+              form="submit"
             >
               Next Step
             </button>
