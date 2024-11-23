@@ -3,14 +3,51 @@ import LeftContainer from "../leftcontainer/LeftContainer";
 import { useNavigate } from "react-router-dom";
 
 const PersonalInfo = () => {
-  const [uname, setUname] = useState("");
-  const [uemail, setUemail] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
+  const [formData, setFormData] = useState({
+    uname: "",
+    uemail: "",
+    phoneNo: "",
+  });
+  const [unameError, setUnameError] = useState("");
+  const [uemailError, setUemailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
 
+  console.log(formData);
   const navigate = useNavigate();
-  function handleSubmit() {
-    console.log("hiii");
-    navigate("/plansPage");
+  const data = { formData };
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // let isValid = true;
+    // if (!formData.uname.trim()) {
+    //   setUnameError("Name is required");
+    //   isValid = false;
+    // } else {
+    //   setUnameError("");
+    // }
+
+    // if (!formData.uemail.trim()) {
+    //   setUemailError("Email is required");
+    //   isValid = false;
+    // } else if (
+    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.uemail)
+    // ) {
+    //   setUemailError("Invalid email address");
+    //   isValid = false;
+    // } else {
+    //   setUemailError("");
+    // }
+
+    // if (!formData.phoneNo.trim()) {
+    //   setPhoneError("Phone number is required");
+    //   isValid = false;
+    // } else if (!/^\d{10}$/.test(formData.phoneNo)) {
+    //   setPhoneError("Invalid phone number");
+    //   isValid = false;
+    // } else {
+    //   setPhoneError("");
+    // }
+    navigate("/plansPage", { state: data });
   }
   return (
     <div className="h-screen flex justify-center items-center max-sm:items-start max-lg:visible">
@@ -36,11 +73,12 @@ const PersonalInfo = () => {
                   id="name"
                   name="name"
                   required
-                  value={uname}
-                  onChange={(e) => setUname(e.target.value)}
+                  value={formData.uname}
+                  onChange={(e) => setFormData(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
+              {unameError && unameError}
             </div>
             <div>
               <label htmlFor="email">
@@ -50,11 +88,12 @@ const PersonalInfo = () => {
                   id="email"
                   name="email"
                   required
-                  value={uemail}
-                  onChange={(e) => setUemail(e.target.value)}
+                  value={formData.uemail}
+                  onChange={(e) => setFormData(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
+              {uemailError && { uemailError }}
             </div>
             <div>
               <label htmlFor="phone">
@@ -64,11 +103,12 @@ const PersonalInfo = () => {
                   id="phone"
                   name="phone"
                   required
-                  value={phoneNo}
-                  onChange={(e) => setPhoneNo(e.target.value)}
+                  value={formData.phoneNo}
+                  onChange={(e) => setFormData(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
+              {phoneError && { phoneError }}
             </div>
           </form>
           <div className="flex justify-end mt-12 max-sm:hidden">

@@ -1,12 +1,17 @@
 import React from "react";
 import LeftContainer from "../leftcontainer/LeftContainer";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const FinishupPage = () => {
+  const location = useLocation();
+  const item = location.state;
+
+  console.log(item);
+
   const navigate = useNavigate();
 
   function handleBackward() {
-    navigate("/addonPage");
+    navigate("/addonPage", { state: item });
   }
   return (
     <div className="h-screen flex justify-center items-center max-sm:h-0">
@@ -71,7 +76,7 @@ const FinishupPage = () => {
               </span>
             </div>
           </div>
-          <div className="flex justify-between mt-16 w-[450px] max-sm:w-[380px] max-sm:p-3 max-sm:mt-36 max-sm:gap-60 max-sm:bg-white">
+          <div className="mt-16 w-[450px] max-sm:w-[380px]  max-sm:p-3 max-sm:mt-36 max-sm:gap-60 max-sm:bg-white">
             <button
               className="text-gray-400 text-sm font-bold"
               onClick={handleBackward}
@@ -80,7 +85,7 @@ const FinishupPage = () => {
             </button>
             <button
               type="button"
-              className="bg-blue-500 text-white font-medium py-3 px-6 rounded-md text-xs max-sm:pr-2 max-sm:"
+              className="bg-blue-500 text-white font-medium py-3 px-6 rounded-md text-xs "
             >
               Confirm
             </button>

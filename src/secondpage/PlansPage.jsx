@@ -3,36 +3,43 @@ import LeftContainer from "../leftcontainer/LeftContainer";
 import { LuJoystick } from "react-icons/lu";
 import { BiJoystick } from "react-icons/bi";
 import { BiSolidJoystickAlt } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SiEthers } from "react-icons/si";
 
 const PlansPage = () => {
-  const [selectedData, setSelectedData] = useState({});
+  const location = useLocation();
+  const data = location.state;
+  const [selectedData, setSelectedData] = useState(
+    location.state?.selectedData || {}
+  );
 
-  const [borderColor, setBorderColor] = useState("");
+  const [borderColor, setBorderColor] = useState(
+    location.state?.borderColor || ""
+  );
 
-  console.log(selectedData);
   const navigate = useNavigate();
+  const item = { selectedData, borderColor, data };
 
   function handleForward() {
-    navigate("/addonPage");
+    navigate("/addonPage", { state: item });
   }
 
   function handleBackward() {
-    navigate("/");
+    navigate("/", { state: data });
   }
 
+  console.log(selectedData);
+  console.log(data);
+
   const handleSelect = (name, price) => {
-    setBorderColor("Arcade");
-    // setBorderColor("Advanced");
-    // setBorderColor("Advanced");
+    setBorderColor(name);
     setSelectedData({ tech: name, month: price });
   };
   return (
     <div className="h-screen flex justify-center items-center max-sm:h-0">
       <main className="bg-white w-8/12 h-5/6 rounded-lg flex  p-4 gap-16 shadow-lg max-sm:block max-sm:w-full max-sm:p-0 max-sm:bg-[rgb(0,255,255)] max-sm:shadow-none max-lg:gap-0 max-lg:w-auto">
         <LeftContainer />
-        <section className="w-[70%] p-5 max-sm:w-full max-sm:mt-32 max-sm:bg-white max-sm:relative max-sm:h-[530px]">
+        <section className="w-[70%] p-5 max-sm:w-full max-sm:p-2 max-sm:mt-32 max-sm:bg-white max-sm:relative max-sm:h-[600px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-3xl font-bold text-blue-900  max-sm:bg-white max-sm:text-4xl">
               Select Your Plan
@@ -43,13 +50,13 @@ const PlansPage = () => {
           </div>
           <div className="flex gap-4 mt-12 max-sm:block max-sm:gap-4">
             <div
-              className={`flex flex-col justify-start gap-8 border ${
+              className={`flex flex-col justify-start gap-6 border ${
                 borderColor === "Arcade" ? "border-blue-700" : "border-gray-300"
-              } py-4 pl-3 pr-16 cursor-pointer focus:border-blue-600 rounded-md max-sm:py-2 max-sm:flex-row`}
-              onClick={() => handleSelect("arcade", "$9 / mo")}
+              } py-4 pl-3 pr-16 cursor-pointer focus:border-blue-600 rounded-md max-sm:p-6 max-sm:flex-row `}
+              onClick={() => handleSelect("Arcade", "$9 / mo")}
             >
               <div>
-                <LuJoystick className="bg-green-400 rounded-full text-2xl text-white p-1 max-sm:text-3xl" />
+                <LuJoystick className="bg-green-400 rounded-full text-2xl text-white p-1 max-sm:text-5xl" />
               </div>
               <div>
                 <p className="text-blue-950 text-sm font-bold max-sm:text-xl">
@@ -61,15 +68,15 @@ const PlansPage = () => {
               </div>
             </div>
             <div
-              className={`flex flex-col gap-8 border ${
+              className={`flex flex-col gap-6 border ${
                 borderColor === "Advanced"
                   ? "border-blue-700"
                   : "border-gray-300"
-              } py-4 pl-3 pr-12 cursor-pointer rounded-md max-sm:flex-row`}
+              } py-4 pl-3 pr-12 cursor-pointer rounded-md max-sm:flex-row max-sm:p-6`}
               onClick={() => handleSelect("Advanced", "$12/mo")}
             >
               <div>
-                <BiJoystick className="bg-red-400 rounded-full text-2xl text-white p-1 max-sm:text-3xl" />
+                <BiJoystick className="bg-red-400 rounded-full text-2xl text-white p-1 max-sm:text-5xl" />
               </div>
               <div>
                 <p className="text-blue-950 text-sm font-bold max-sm:text-xl">
@@ -81,13 +88,13 @@ const PlansPage = () => {
               </div>
             </div>
             <div
-              className={`flex flex-col gap-8 border ${
+              className={`flex flex-col gap-6 border ${
                 borderColor === "Pro" ? "border-blue-700" : "border-gray-300"
-              } py-4 pl-3 pr-16 cursor-pointer rounded-md max-sm:flex-row`}
+              } py-4 pl-3 pr-16 cursor-pointer rounded-md max-sm:flex-row max-sm:p-6`}
               onClick={() => handleSelect("Pro", "$15/mo")}
             >
               <div>
-                <BiSolidJoystickAlt className="bg-blue-800 rounded-full text-2xl text-white p-1 max-sm:text-3xl" />
+                <BiSolidJoystickAlt className="bg-blue-800 rounded-full text-2xl text-white p-1 max-sm:text-5xl" />
               </div>
               <div>
                 <p className="text-blue-950 text-sm font-bold max-sm:text-xl">
@@ -111,16 +118,16 @@ const PlansPage = () => {
               </span>
             </label>
           </div>
-          <div className="flex justify-between mt-20 w-[400px] max-sm:w-[350px] max-sm:p-4 max-sm:bg-white max-lg:w-auto">
+          <div className="flex justify-between mt-20 w-[400px] max-sm:bg-white max-sm:p-4  max-lg:w-auto">
             <button
-              className="text-blue-950 text-sm font-bold"
+              className="text-gray-400 text-sm font-bold max-sm:text-lg"
               onClick={handleBackward}
             >
               Go Back
             </button>
             <button
               type="button"
-              className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs max-sm:px-8"
+              className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs max-sm:px-6 max-sm:text-lg max-sm:font-medium"
               onClick={handleForward}
             >
               Next Step
