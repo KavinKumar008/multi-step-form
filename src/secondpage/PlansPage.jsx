@@ -1,40 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import LeftContainer from "../leftcontainer/LeftContainer";
 import { LuJoystick } from "react-icons/lu";
 import { BiJoystick } from "react-icons/bi";
 import { BiSolidJoystickAlt } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SiEthers } from "react-icons/si";
+import FinishupPage from "../fourthpage/FinishupPage";
+// import { PlansPageContext } from "../context/Context";
 
-const PlansPage = () => {
-  const location = useLocation();
-  const data = location.state;
-  const [selectedData, setSelectedData] = useState(
-    location.state?.selectedData || {}
-  );
+const PlansPage = ({ setCurrentPage, uName, uEmail, phoneNo }) => {
+  // const location = useLocation();
+  // const data = location.state;
+  // const [selectedData, setSelectedData] = useState(
+  //   location.state?.selectedData || {}
+  // );
 
-  const [borderColor, setBorderColor] = useState(
-    location.state?.borderColor || ""
-  );
+  const [selectedData, setSelectedData] = useState({});
 
-  const navigate = useNavigate();
-  const item = { selectedData, borderColor, data };
+  const [borderColor, setBorderColor] = useState("");
 
-  function handleForward() {
-    navigate("/addonPage", { state: item });
-  }
+  console.log(uName, uEmail, phoneNo);
 
-  function handleBackward() {
-    navigate("/", { state: data });
-  }
+  // const { storedData, setStoredData } = useContext(PlansPageContext);
 
-  console.log(selectedData);
-  console.log(data);
+  // const navigate = useNavigate();
+  // const item = { selectedData, borderColor, data };
+
+  // function handleForward() {
+  //   navigate("/addonPage", { state: item });
+  //   setStoredData(item);
+  // }
+
+  // console.log(storedData);
+
+  // function handleBackward() {
+  //   navigate("/", { state: data });
+  //   setStoredData(data);
+  // }
+
+  // console.log(selectedData);
+  // console.log(data);
 
   const handleSelect = (name, price) => {
     setBorderColor(name);
     setSelectedData({ tech: name, month: price });
   };
+
+  const handleForward = () => {
+    setCurrentPage("addOns");
+  };
+
+  const handleBackward = () => {
+    setCurrentPage("info");
+  };
+
+  console.log(selectedData);
   return (
     <div className="h-screen flex justify-center items-center max-sm:h-0">
       <main className="bg-white w-8/12 h-5/6 rounded-lg flex  p-4 gap-16 shadow-lg max-sm:block max-sm:w-full max-sm:p-0 max-sm:bg-[rgb(0,255,255)] max-sm:shadow-none max-lg:gap-0 max-lg:w-auto">
@@ -134,6 +154,9 @@ const PlansPage = () => {
             </button>
           </div>
         </section>
+        {/* <PlansPageContext.Provider value={selectedData}>
+          <FinishupPage />
+        </PlansPageContext.Provider> */}
       </main>
     </div>
   );

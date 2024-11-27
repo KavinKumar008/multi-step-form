@@ -1,54 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import LeftContainer from "../leftcontainer/LeftContainer";
 import { useNavigate } from "react-router-dom";
+// import { PlansPageContext } from "../context/Context";
+import PlansPage from "../secondpage/PlansPage";
 
-const PersonalInfo = () => {
-  const [formData, setFormData] = useState({
-    uname: "",
-    uemail: "",
-    phoneNo: "",
-  });
-  const [unameError, setUnameError] = useState("");
-  const [uemailError, setUemailError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+const PersonalInfo = ({ currentPage, setCurrentPage }) => {
+  // const [formData, setFormData] = useState({
+  //   uname: "",
+  //   uemail: "",
+  //   phoneNo: "",
+  // });
+  // const { storedData, setStoredData } = useContext(PlansPageContext);
+  const [uName, setUname] = useState("");
+  const [uEmail, setUemail] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [showPage, setShowPage] = useState(false);
 
-  console.log(formData);
-  const navigate = useNavigate();
-  const data = { formData };
+  // const navigate = useNavigate();
+  // const data = { uName, uEmail, phoneNo };
   function handleSubmit(e) {
     e.preventDefault();
+    setShowPage(true);
+    setCurrentPage("planPage");
 
-    // let isValid = true;
-    // if (!formData.uname.trim()) {
-    //   setUnameError("Name is required");
-    //   isValid = false;
-    // } else {
-    //   setUnameError("");
-    // }
-
-    // if (!formData.uemail.trim()) {
-    //   setUemailError("Email is required");
-    //   isValid = false;
-    // } else if (
-    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.uemail)
-    // ) {
-    //   setUemailError("Invalid email address");
-    //   isValid = false;
-    // } else {
-    //   setUemailError("");
-    // }
-
-    // if (!formData.phoneNo.trim()) {
-    //   setPhoneError("Phone number is required");
-    //   isValid = false;
-    // } else if (!/^\d{10}$/.test(formData.phoneNo)) {
-    //   setPhoneError("Invalid phone number");
-    //   isValid = false;
-    // } else {
-    //   setPhoneError("");
-    // }
-    navigate("/plansPage", { state: data });
+    // setStoredData((prev) => [data, ...prev]);
+    // navigate("/plansPage", { state: data });
   }
+  // console.log(storedData);
   return (
     <div className="h-screen flex justify-center items-center max-sm:items-start max-lg:visible">
       <main className="bg-white w-8/12 h-5/6 rounded-lg flex  p-4 gap-16 shadow-lg max-sm:block max-sm:w-full max-sm:p-0 max-sm:bg-[rgb(0,255,255)] max-sm:shadow-none">
@@ -73,12 +51,11 @@ const PersonalInfo = () => {
                   id="name"
                   name="name"
                   required
-                  value={formData.uname}
-                  onChange={(e) => setFormData(e.target.value)}
+                  value={uName}
+                  onChange={(e) => setUname(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
-              {unameError && unameError}
             </div>
             <div>
               <label htmlFor="email">
@@ -88,12 +65,11 @@ const PersonalInfo = () => {
                   id="email"
                   name="email"
                   required
-                  value={formData.uemail}
-                  onChange={(e) => setFormData(e.target.value)}
+                  value={uEmail}
+                  onChange={(e) => setUemail(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
-              {uemailError && { uemailError }}
             </div>
             <div>
               <label htmlFor="phone">
@@ -103,12 +79,11 @@ const PersonalInfo = () => {
                   id="phone"
                   name="phone"
                   required
-                  value={formData.phoneNo}
-                  onChange={(e) => setFormData(e.target.value)}
+                  value={phoneNo}
+                  onChange={(e) => setPhoneNo(e.target.value)}
                   className="w-full p-2 mt-2 outline-none border border-gray-300 focus:border-blue-600 rounded-md"
                 />
               </label>
-              {phoneError && { phoneError }}
             </div>
           </form>
           <div className="flex justify-end mt-12 max-sm:hidden">
@@ -123,13 +98,19 @@ const PersonalInfo = () => {
         </section>
         <div className="flex justify-end mt-28 pr-4 bg-white p-3 min-[640px]:hidden">
           <button
-            type="button"
+            type="submit"
+            form="submit"
             className="bg-blue-900 text-white py-3 px-4 rounded-md text-xs"
           >
             Next Step
           </button>
         </div>
       </main>
+      {showPage ? (
+        <PlansPage uName={uName} uEmail={uEmail} phoneNo={phoneNo} />
+      ) : (
+        <PersonalInfo />
+      )}
     </div>
   );
 };

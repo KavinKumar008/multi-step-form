@@ -1,45 +1,76 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import LeftContainer from "../leftcontainer/LeftContainer";
 import { useLocation, useNavigate } from "react-router-dom";
+// import { PlansPageContext } from "../context/Context";
 
-const AddonPage = () => {
-  const location = useLocation();
-  const data = location.state;
-  const [selectedCheckbox, setselectedCheckbox] = useState(
-    location.state?.selectedCheckbox || []
-  );
-  const [checked, setChecked] = useState(false);
-  const [borderColor, setBorderColor] = useState("");
+const AddonPage = ({ setCurrentPage }) => {
+  // const location = useLocation();
+  // const data = location.state;
+  const [selectedCheckbox, setselectedCheckbox] = useState([]);
+  // const [checked, setChecked] = useState(location.state?.checked || false);
+  // const [borderColorOn, setBorderColorOn] = useState(
+  //   location.state.borderColor || ""
+  // );
 
   const idRef = useRef(0);
 
-  console.log(data);
+  // const { storedData, setStoredData } = useContext(PlansPageContext);
 
-  const navigate = useNavigate();
-  const item = { selectedCheckbox, data };
+  const [isChecked1, setIsChecked1] = useState();
+  const [isChecked2, setIsChecked2] = useState();
+  const [isChecked3, setIsChecked3] = useState();
+
+  // console.log(storedData);
+  // console.log(location.state, ")))))))))))))))000000");
+  // const navigate = useNavigate();
+  // const item = { selectedCheckbox, data };
 
   function handleForward() {
-    navigate("/finishupPage", { state: item });
+    // navigate("/finishupPage", { state: item });
+    // setStoredData(item);
+    setCurrentPage("finishPage");
   }
 
   function handleBackward() {
-    navigate("/plansPage", { state: data });
+    // navigate("/plansPage", { state: data });
+    // setStoredData(data);
+    setCurrentPage("planPage");
   }
 
-  // console.log(checked);
+  // console.log(borderColorOn);
 
+  // const bothSelected = isChecked1 && isChecked2 && isChecked3;
   const handleCheckboxSelected = (service, amount) => {
-    setBorderColor(service);
+    // setBorderColorOn(service || amount);
     const newId = idRef.current + 1;
     idRef.current = newId;
-    setselectedCheckbox((prevValue) => [
-      ...prevValue,
-      { id: newId, addons: service, cash: amount },
-    ]);
-    selectedCheckbox.filter((item) => console.log(item));
+    setselectedCheckbox((prevValue) => {
+      const isSelected = prevValue.some((item) => item.addons === service);
+      if (isSelected) {
+        // console.log("already selected remove from the state");
+        return prevValue.filter((item) => item.addons !== service);
+      } else {
+        return [...prevValue, { id: newId, addons: service, cash: amount }];
+      }
+    });
   };
+
+  const handleCheckBoxChange1 = (e) => {
+    handleCheckboxSelected("Online service", "+$1/mo");
+    setIsChecked1(e.target.checked);
+  };
+
+  const handleCheckBoxChange2 = (e) => {
+    handleCheckboxSelected("Larger storage", "+$2/mo");
+    setIsChecked2(e.target.checked);
+  };
+
+  const handleCheckBoxChange3 = (e) => {
+    handleCheckboxSelected("Customizable Profile", "+$2/mo");
+    setIsChecked3(e.target.checked);
+  };
+
   console.log(selectedCheckbox);
-  // console.log(remove);
 
   return (
     <div className="h-screen flex justify-center items-center max-sm:h-0">
@@ -57,18 +88,14 @@ const AddonPage = () => {
           <div className="flex flex-col gap-4 pt-8 max-lg:pt-10 max-lg:pr-4 max-sm:p-1">
             <div
               className={`flex gap-8 items-center border ${
-                borderColor === "Online service"
-                  ? "border-blue-600"
-                  : "border-gray-400"
+                isChecked1 ? "border-blue-600" : "border-gray-400"
               } rounded-md  p-4 max-sm:p-1`}
             >
               <input
                 type="checkbox"
-                value={checked}
-                onChange={(e) => setChecked(e.target.value)}
-                onClick={() =>
-                  handleCheckboxSelected("Online service", "+$1/mo")
-                }
+                value={isChecked1}
+                onChange={handleCheckBoxChange1}
+                onClick={handleCheckBoxChange1}
               />
               <div className="flex items-center gap-32">
                 <div>
@@ -88,18 +115,14 @@ const AddonPage = () => {
             </div>
             <div
               className={`flex gap-8 items-center border ${
-                borderColor === "Larger storage"
-                  ? "border-blue-600"
-                  : "border-gray-400"
+                isChecked2 ? "border-blue-600" : "border-gray-400"
               } rounded-md p-4 max-sm:p-1`}
             >
               <input
                 type="checkbox"
-                value={checked}
-                onChange={(e) => setChecked(e.target.value)}
-                onClick={() =>
-                  handleCheckboxSelected("Larger storage", "+$2/mo")
-                }
+                value={isChecked2}
+                onChange={handleCheckBoxChange2}
+                onClick={handleCheckBoxChange2}
               />
               <div className="flex items-center gap-32">
                 <div>
@@ -119,18 +142,14 @@ const AddonPage = () => {
             </div>
             <div
               className={`flex gap-8 items-center border ${
-                borderColor === "Customizable Profile"
-                  ? "border-blue-600"
-                  : "border-gray-400"
+                isChecked3 ? "border-blue-600" : "border-gray-400"
               } rounded-md p-4 max-sm:p-1`}
             >
               <input
                 type="checkbox"
-                value={checked}
-                onChange={(e) => setChecked(e.target.value)}
-                onClick={() =>
-                  handleCheckboxSelected("Customizable Profile", "+$2/mo")
-                }
+                value={isChecked3}
+                onChange={handleCheckBoxChange3}
+                onClick={handleCheckBoxChange3}
               />
               <div className="flex items-center gap-32">
                 <div>
@@ -166,7 +185,10 @@ const AddonPage = () => {
           </div>
         </section>
         <div className="flex justify-between mt-16 bg-white p-3 min-[640px]:hidden ">
-          <button className="text-blue-950 text-sm font-bold max-sm:text-lg">
+          <button
+            className="text-blue-950 text-sm font-bold max-sm:text-lg"
+            onClick={handleBackward}
+          >
             Go Back
           </button>
           <button

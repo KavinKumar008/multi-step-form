@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
 const LeftContainer = () => {
+  // const [currentPage, setCurrentPage] = useState("#fff");
+
+  // const handleChange = () => {
+  //   setCurrentPage(currentPage === 1);
+  // };
   return (
     <section className="h-full w-[20vw] bg-blue-400 rounded-md flex flex-col gap-4 p-10 max-sm:w-full max-sm:h-[35%] max-sm:flex-row max-sm:justify-center max-sm:rounded-none max-sm:absolute max-lg:w-auto">
       <div className="flex gap-4">
-        <span className="text-white max-sm:text-2xl max-sm:font-medium">1</span>
+        <span
+          className={`flex items-center justify-center text-white border border-white rounded-full w-8 h-8 max-sm:text-2xl max-sm:font-medium max-sm:p-5`}
+          // onChange={handleChange}
+        >
+          1
+        </span>
         <span>
           <p className="text-gray-300 text-xs max-sm:hidden">STEP 1</p>
           <p className="text-white font-medium tracking-wider max-sm:hidden">
@@ -13,7 +23,9 @@ const LeftContainer = () => {
         </span>
       </div>
       <div className="flex gap-4">
-        <span className="text-white max-sm:text-2xl max-sm:font-medium">2</span>
+        <span className="flex items-center justify-center text-white border border-white rounded-full w-8 h-8 max-sm:text-2xl max-sm:font-medium max-sm:p-5">
+          2
+        </span>
         <span>
           <p className="text-gray-300 text-xs max-sm:hidden">STEP 2</p>
           <p className="text-white font-medium tracking-wider max-sm:hidden">
@@ -22,7 +34,9 @@ const LeftContainer = () => {
         </span>
       </div>
       <div className="flex gap-4">
-        <span className="text-white max-sm:text-2xl max-sm:font-medium">3</span>
+        <span className="flex items-center justify-center text-white border border-white rounded-full w-8 h-8 max-sm:text-2xl max-sm:font-medium max-sm:p-5">
+          3
+        </span>
         <span>
           <p className="text-gray-300 text-xs max-sm:hidden">STEP 4</p>
           <p className="text-white font-medium tracking-wider max-sm:hidden">
@@ -31,7 +45,9 @@ const LeftContainer = () => {
         </span>
       </div>
       <div className="flex gap-4">
-        <span className="text-white max-sm:text-2xl max-sm:font-medium">4</span>
+        <span className="flex items-center justify-center text-white border border-white rounded-full w-8 h-8 max-sm:text-2xl max-sm:font-medium max-sm:p-5">
+          4
+        </span>
         <span>
           <p className="text-gray-300 text-xs max-sm:hidden">STEP 4</p>
           <p className="text-white font-medium tracking-wider max-sm:hidden">
